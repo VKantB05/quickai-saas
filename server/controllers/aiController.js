@@ -132,6 +132,11 @@ export const removeImageBackground = async (req, res) => {
       return res.json({ success: false, message: "This feature is available in premium plan." });
     }
 
+    if (!image) {
+       return res.json({ success: false, message: "No image file provided." });
+    }
+
+    
 
     const { secure_url } = await cloudinary.uploader.upload(image.path, {
       transformation: [
@@ -236,8 +241,10 @@ export const resumeReview = async (req, res) => {
       return res.json({ success: false, message: "No file uploaded." });
     }
 
-    // 1. Convert the file buffer to a Base64 string
-    const base64Data = resume.buffer.toString("base64");
+    // 1. Read the file from the disk path and convert to Base64
+    const fileBuffer = fs.readFileSync(resume.path);
+    const base64Data = fileBuffer.toString("base64");
+
     const prompt = `
 You are an expert Technical Recruiter and Career Coach with 15+ years of experience in talent acquisition for Fortune 500 companies. 
 
