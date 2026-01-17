@@ -21,8 +21,8 @@ const RemoveObject = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      if (object.split(' ').length > 1) {
-        toast.error("Please provide only single object name to remove");
+      if (object.split(' ').length > 20) {
+        toast.error("Description is too long. Please keep it under 2 lines.");
         setLoading(false);
         return;
       }

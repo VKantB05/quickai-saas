@@ -172,8 +172,9 @@ export const removeImageObject = async (req, res) => {
     const { public_id } = await cloudinary.uploader.upload(image.path)
 
     const image_url = cloudinary.url(public_id, {
-      transformation: [{ effect: `gen_remove:${object}` }],
-      responseType: 'image'
+      transformation: [{ effect: `gen_remove:prompt_${object}` }],
+      secure : true
+      
     })
 
     await sql`INSERT INTO creations (user_id, prompt, content, type) VALUES (${userId}, ${`Remove ${object} from image `}, ${image_url}, 'image')`;
